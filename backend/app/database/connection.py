@@ -2,9 +2,11 @@ import os
 import uuid
 from datetime import datetime, timezone
 from typing import List, Optional, Dict, Any
-from dotenv import load_dotenv
-
-load_dotenv()
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except Exception:
+    pass
 
 MONGODB_URI = os.getenv("MONGODB_URI", "")
 DB_NAME = os.getenv("DB_NAME", "scamshield_db")
