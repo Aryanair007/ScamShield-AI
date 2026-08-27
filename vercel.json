@@ -6,8 +6,7 @@
     },
     "backend": {
       "root": "backend",
-      "framework": null,
-      "entrypoint": "app/main.py"
+      "framework": "fastapi"
     }
   }
 }
