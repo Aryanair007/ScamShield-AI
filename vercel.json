@@ -1,14 +1,37 @@
 {
+  "version": 2,
   "buildCommand": "cd frontend && npm install && npm run build",
   "outputDirectory": "frontend/dist",
-  "rewrites": [
+  "builds": [
     {
-      "source": "/api/:path*",
-      "destination": "/api/index.py"
+      "src": "api/index.py",
+      "use": "@vercel/python"
     },
     {
-      "source": "/:path*",
-      "destination": "/index.html"
+      "src": "frontend/dist/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/index.py"
+    },
+    {
+      "src": "/docs",
+      "dest": "/api/index.py"
+    },
+    {
+      "src": "/openapi.json",
+      "dest": "/api/index.py"
+    },
+    {
+      "src": "/(.*\\.(js|css|png|jpg|svg|ico|woff|woff2|ttf|json))",
+      "dest": "/frontend/dist/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/frontend/dist/index.html"
     }
   ]
 }
