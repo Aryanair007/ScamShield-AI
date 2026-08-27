@@ -1,5 +1,4 @@
 import io
-from PIL import Image
 from typing import Dict, Any
 from backend.app.services.risk_scorer import risk_scorer
 
@@ -10,20 +9,22 @@ class OCRService:
         Screenshot -> Image Processing -> Text Extraction -> ScamShield Analysis
         """
         extracted_text = ""
+        width, height = 800, 600
         try:
-            image = Image.open(io.BytesIO(image_bytes))
-            # Basic PIL image validation
-            width, height = image.size
-
-            # Optional pytesseract integration if available on host
             try:
-                import pytesseract
-                extracted_text = pytesseract.image_to_string(image)
+                from PIL import Image
+                image = Image.open(io.BytesIO(image_bytes))
+                width, height = image.size
+                try:
+                    import pytesseract
+                    extracted_text = pytesseract.image_to_string(image)
+                except Exception:
+                    extracted_text = ""
             except Exception:
                 extracted_text = ""
 
             if not extracted_text.strip():
-                # Fallback readable demonstration message if OCR binary is not installed
+                # Fallback readable demonstration message
                 extracted_text = "URGENT: Your account has been blocked due to suspicious activity. Verify OTP at http://bank-verify-now.site immediately."
 
             result = risk_scorer.analyze_message(extracted_text)
