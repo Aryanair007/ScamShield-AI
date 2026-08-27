@@ -2,9 +2,8 @@
 node_modules/
 frontend/node_modules/
 
-# Builds
+# Builds (keep dist/ for python, but commit frontend/dist for Vercel static serving)
 dist/
-frontend/dist/
 build/
 
 # Python caches
