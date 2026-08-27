@@ -14,13 +14,20 @@ class MLPredictor:
         model_path = os.path.join(current_dir, "scam_model.pkl")
         vectorizer_path = os.path.join(current_dir, "tfidf_vectorizer.pkl")
 
-        # Fallback location in ml/saved_model if not directly in app/ml
+        # Fallback locations
         alt_model_path = os.path.join(current_dir, "..", "..", "..", "ml", "saved_model", "scam_model.pkl")
         alt_vec_path = os.path.join(current_dir, "..", "..", "..", "ml", "saved_model", "tfidf_vectorizer.pkl")
 
-        if not os.path.exists(model_path) and os.path.exists(alt_model_path):
-            model_path = alt_model_path
-            vectorizer_path = alt_vec_path
+        api_model_path = os.path.join(current_dir, "..", "..", "..", "api", "scam_model.pkl")
+        api_vec_path = os.path.join(current_dir, "..", "..", "..", "api", "tfidf_vectorizer.pkl")
+
+        if not os.path.exists(model_path):
+            if os.path.exists(alt_model_path):
+                model_path = alt_model_path
+                vectorizer_path = alt_vec_path
+            elif os.path.exists(api_model_path):
+                model_path = api_model_path
+                vectorizer_path = api_vec_path
 
         if os.path.exists(model_path) and os.path.exists(vectorizer_path):
             try:
